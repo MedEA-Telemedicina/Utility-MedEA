@@ -140,6 +140,28 @@
       transform: translateX(4px);
     }
 
+    /* ── SECTION DIVIDER ── */
+    .section-divider {
+      grid-column: 1 / -1;
+      border: none;
+      border-top: 2px solid #e0e6ef;
+      margin: 8px 0;
+      position: relative;
+    }
+
+    .section-divider::before {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 3px;
+      background: #4a80f5;
+      border-radius: 2px;
+      position: absolute;
+      top: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
     /* ── FOOTER ── */
     footer {
       margin-top: auto;
@@ -157,13 +179,41 @@
   </header>
 
   <section class="hero">
-    <h1>Benvenuto nel portale Medea</h1>
+    <h1>Benvenuto nel portale MedEA</h1>
     <p>Seleziona un applicativo per accedervi direttamente.</p>
   </section>
 
   <main class="grid">
 
+    <hr class="section-divider">
+
     <!-- CARD 1 -->
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeLfv8iEUTI6gLRZmfT_MSGzVLb16xN7DiRop12wwJg3jIJrg/viewform" class="card">
+      <div class="card-icon green">🎓</div>
+      <h2>Prenotazione formazione</h2>
+      <p>Form per inserire l'appuntamento a calendario.</p>
+      <span class="arrow">Apri</span>
+    </a>
+
+    <!-- CARD 2 -->
+    <a href="https://form.asana.com/?k=ywqd5GzJVYDwQQSsN4zIBA&d=1113117430160538" class="card">
+      <div class="card-icon green">🚚</div>
+      <h2>Modulo assistenza</h2>
+      <p>Form per richiedere il ritiro di un dispositivo.</p>
+      <span class="arrow">Apri</span>
+    </a>
+
+    <!-- CARD 3 -->
+    <a href="https://form.asana.com/?k=qq3JhvF-9lBoukrZEpknZQ&d=1113117430160538" class="card">
+      <div class="card-icon green">📜</div>
+      <h2>Copia attestato di formazione</h2>
+      <p>Form per richiedere la copia di un attestato di formazione MedEA eseguita in passato.</p>
+      <span class="arrow">Apri</span>
+    </a>
+
+    <hr class="section-divider">
+
+    <!-- CARD 4 -->
     <a href="https://medea-telemedicina.github.io/Polisonnografia/" class="card">
       <div class="card-icon blue">💤</div>
       <h2>Polisonnografia</h2>
@@ -171,19 +221,19 @@
       <span class="arrow">Apri</span>
     </a>
 
-    <!-- CARD 2 -->
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeLfv8iEUTI6gLRZmfT_MSGzVLb16xN7DiRop12wwJg3jIJrg/viewform" class="card">
-      <div class="card-icon green">📝</div>
-      <h2>Prenotazione formazione</h2>
-      <p>Form per inserire l'appuntamento a calendario.</p>
-      <span class="arrow">Apri</span>
-    </a>
-
-    <!-- CARD 3 -->
+    <!-- CARD 5 -->
     <a href="https://medea-telemedicina.github.io/gestione-turni/" class="card">
       <div class="card-icon orange">📅</div>
       <h2>Gestione turni Medici</h2>
       <p>Applicativo per la definizione dei turni dei medici</p>
+      <span class="arrow">Apri</span>
+    </a>
+
+    <!-- CARD 6 -->
+    <a href="https://medea-telemedicina.github.io/Tracker-Formazioni/" class="card" target="_blank" rel="noopener">
+      <div class="card-icon teal">📊</div>
+      <h2>Tracker Formazioni</h2>
+      <p>Applicativo per visualizzare il conteggio delle formaizioni eseguite da ogni operatore.</p>
       <span class="arrow">Apri</span>
     </a>
 
