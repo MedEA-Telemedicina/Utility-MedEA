@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -162,6 +161,130 @@
       transform: translateX(-50%);
     }
 
+    /* ── MODAL OVERLAY ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 36px 32px;
+      max-width: 520px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+      position: relative;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .modal-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: #fce8e6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .modal h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+
+    .modal p.subtitle {
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      color: #aaa;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px 8px;
+      border-radius: 8px;
+      transition: background 0.15s;
+    }
+
+    .modal-close:hover {
+      background: #f0f0f0;
+      color: #555;
+    }
+
+    .video-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .video-list li a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid #eaeef3;
+      text-decoration: none;
+      color: #1a1a2e;
+      font-size: 0.92rem;
+      font-weight: 500;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .video-list li a:hover {
+      background: #fef3e2;
+      border-color: #f5c77e;
+    }
+
+    .video-list li a .vicon {
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .video-list li a .vtitle {
+      flex: 1;
+    }
+
+    .video-list li a .vext {
+      font-size: 0.78rem;
+      color: #4a80f5;
+      font-weight: 600;
+    }
+
+    /* card clickable non-link */
+    .card-btn {
+      cursor: pointer;
+    }
+
     /* ── FOOTER ── */
     footer {
       margin-top: auto;
@@ -211,6 +334,14 @@
       <span class="arrow">Apri</span>
     </a>
 
+    <!-- CARD VIDEO FORMAZIONI -->
+    <div class="card card-btn" onclick="document.getElementById('videoModal').classList.add('active')">
+      <div class="card-icon red">🎬</div>
+      <h2>Video di Formazione</h2>
+      <p>Raccolta di tutti i video formativi disponibili per operatori e medici.</p>
+      <span class="arrow">Guarda</span>
+    </div>
+
     <hr class="section-divider">
 
     <!-- CARD 4 -->
@@ -238,6 +369,85 @@
     </a>
 
   </main>
+
+  <!-- MODAL VIDEO FORMAZIONI -->
+  <div class="modal-overlay" id="videoModal" onclick="if(event.target===this) this.classList.remove('active')">
+    <div class="modal">
+      <button class="modal-close" onclick="document.getElementById('videoModal').classList.remove('active')">✕</button>
+      <div class="modal-header">
+        <div class="modal-icon">🎬</div>
+        <div>
+          <h2>Video di Formazione</h2>
+          <p class="subtitle">Clicca su un video per aprirlo</p>
+        </div>
+      </div>
+
+      <ul class="video-list">
+          <hr class="section-divider">
+          <p class="subtitle">Medea3</p>
+        <li>
+          <a href="https://www.canva.com/design/DAHAL_flfeg/YVt9F6ovmby3ZdI63tetrw/view?utm_content=DAHAL_flfeg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h26a963565c" target="_blank" rel="noopener">
+            <span class="vicon">▶️</span>
+            <span class="vtitle">Holter pressorio</span>
+            <span class="vext">Apri →</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.canva.com/design/DAHDdusZUho/YPMd5wbXss4WV3emcIuO-g/view?utm_content=DAHDdusZUho&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h2a8aa59424" target="_blank" rel="noopener">
+            <span class="vicon">▶️</span>
+            <span class="vtitle">Holter cardiaco</span>
+            <span class="vext">Apri →</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.canva.com/design/DAG_y6xPYhE/YSMZE8ju4ZfOSk41wBNOMA/view?utm_content=DAG_y6xPYhE&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hd36e59a929" target="_blank" rel="noopener">
+            <span class="vicon">▶️</span>
+            <span class="vtitle">Polisonnografia</span>
+            <span class="vext">Apri →</span>
+          </a>
+        </li>
+
+          <hr class="section-divider">
+          <p class="subtitle">MedeaTools</p>
+
+        <li>
+          <a href="https://www.canva.com/design/DAFyE8JPOfc/LiflFS-SRIodU4GEJ1mrvA/view?utm_content=DAFyE8JPOfc&utm_campaign=designshare&utm_medium=link&utm_source=editor" target="_blank" rel="noopener">
+            <span class="vicon">▶️</span>
+            <span class="vtitle">ECG Lepu</span>
+            <span class="vext">Apri →</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.canva.com/design/DAFDBZXY-ts/yqzaT0DFMAz5ZZ-oNAXxFg/view?utm_content=DAFDBZXY-ts&utm_campaign=designshare&utm_medium=link&utm_source=editor" target="_blank" rel="noopener">
+            <span class="vicon">▶️</span>
+            <span class="vtitle">Holter pressorio</span>
+            <span class="vext">Apri →</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.canva.com/design/DAFGYzscaJg/7242YmmQLvHFqV6Lsv_QcQ/view?utm_content=DAFGYzscaJg&utm_campaign=designshare&utm_medium=link&utm_source=editor" target="_blank" rel="noopener">
+            <span class="vicon">▶️</span>
+            <span class="vtitle">Holter cardiaco</span>
+            <span class="vext">Apri →</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.canva.com/design/DAEEr_X6JMg/s_PjZijlLNshGXdINuocDw/view?utm_content=DAEEr_X6JMg&utm_campaign=designshare&utm_medium=link&utm_source=editor" target="_blank" rel="noopener">
+            <span class="vicon">▶️</span>
+            <span class="vtitle">Polisonnografia</span>
+            <span class="vext">Apri →</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.canva.com/design/DAFHtQvOZIc/8CfbMmSJfJkBgJ_x9h2_HA/view?utm_content=DAFHtQvOZIc&utm_campaign=designshare&utm_medium=link&utm_source=editor" target="_blank" rel="noopener">
+            <span class="vicon">▶️</span>
+            <span class="vtitle">Spirometria</span>
+            <span class="vext">Apri →</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
 
   <footer>
     &copy; 2026 Medea — Tutti i diritti riservati
