@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -375,6 +376,62 @@
     /* ── EMPTY STATE ── */
     .doc-empty { text-align: center; padding: 32px 16px; color: #aaa; font-size: 0.9rem; }
     .doc-empty-icon { font-size: 2rem; margin-bottom: 8px; }
+
+    /* ── SOFTWARE LIST ── */
+    .sw-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid #eaeef3;
+      background: #fff;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .sw-item:hover { background: #e4f7f5; border-color: #6ec9c1; }
+
+    .sw-icon { font-size: 1.4rem; flex-shrink: 0; }
+
+    .sw-info { flex: 1; min-width: 0; }
+
+    .sw-title {
+      display: block;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #1a1a2e;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sw-version {
+      display: block;
+      font-size: 0.75rem;
+      color: #aaa;
+      margin-top: 2px;
+    }
+
+    .sw-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .sw-btn {
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .sw-btn.download { background: #e4f7f5; color: #1a8f87; }
+    .sw-btn.download:hover { background: #c8eeeb; }
   </style>
 </head>
 <body>
@@ -416,14 +473,6 @@
       <span class="arrow">Apri</span>
     </a>
 
-    <!-- CARD 3 -->
-    <a href="https://form.asana.com/?k=qq3JhvF-9lBoukrZEpknZQ&d=1113117430160538" class="card" target="_blank" rel="noopener">
-      <div class="card-icon green">📜</div>
-      <h2>Copia attestato di formazione</h2>
-      <p>Form per richiedere la copia di un attestato di formazione MedEA eseguita in passato.</p>
-      <span class="arrow">Apri</span>
-    </a>
-
     <!-- CARD VIDEO FORMAZIONI -->
     <div class="card card-btn" onclick="document.getElementById('videoModal').classList.add('active')">
       <div class="card-icon red">🎬</div>
@@ -440,6 +489,14 @@
       <span class="arrow">Consulta</span>
     </div>
 
+    <!-- CARD SOFTWARE -->
+    <div class="card card-btn" onclick="openSwModal()">
+      <div class="card-icon teal">💾</div>
+      <h2>Software</h2>
+      <p>Raccolta dei software disponibili al download.</p>
+      <span class="arrow">Scarica</span>
+    </div>
+    
     <!-- CARD NAS -->
     <a href="https://medeadigitalhealth.sharepoint.com/sites/NASPZ/Documenti%20condivisi/Forms/AllItems.aspx?id=%2Fsites%2FNASPZ%2FDocumenti%20condivisi%2FProduzione&p=true&ga=1" class="card" target="_blank" rel="noopener">
       <div class="card-icon orange">📂​</div>
@@ -455,6 +512,15 @@
       <p></p>
       <span class="arrow">Apri</span>
     </a>
+
+    <!-- CARD 3 -->
+    <a href="https://form.asana.com/?k=qq3JhvF-9lBoukrZEpknZQ&d=1113117430160538" class="card" target="_blank" rel="noopener">
+      <div class="card-icon green">📜</div>
+      <h2>Copia attestato di formazione</h2>
+      <p>Form per richiedere la copia di un attestato di formazione MedEA eseguita in passato.</p>
+      <span class="arrow">Apri</span>
+    </a>
+
     
     <hr class="section-divider">
 
@@ -631,6 +697,26 @@
     </div>
   </div>
 
+
+
+  <!-- MODAL SOFTWARE -->
+  <div class="modal-overlay" id="swModal" onclick="if(event.target===this) closeSwModal()">
+    <div class="modal">
+      <button class="modal-close" onclick="closeSwModal()">✕</button>
+
+      <div class="modal-header-row">
+        <div class="modal-icon" style="background:#e4f7f5">💾</div>
+        <div class="modal-header-text">
+          <h2>Software</h2>
+          <p class="subtitle">Clicca su Scarica per avviare il download</p>
+        </div>
+      </div>
+
+      <!-- Lista software -->
+      <div class="doc-list" id="swList"></div>
+    </div>
+  </div>
+
   <footer>
     &copy; 2026 Medea — Tutti i diritti riservati
   </footer>
@@ -789,6 +875,177 @@
     </div>
   </template>
 
+
+  <!--
+  ╔══════════════════════════════════════════════════════════════════╗
+  ║  SOFTWARE — modifica direttamente qui                           ║
+  ║                                                                  ║
+  ║  • Per aggiungere una SEZIONE:                                   ║
+  ║      <div class="sw-section" data-title="Nome Sezione">         ║
+  ║        ...software...                                            ║
+  ║      </div>                                                      ║
+  ║                                                                  ║
+  ║  • Per aggiungere un SOFTWARE dentro una sezione:               ║
+  ║      <div class="sw-app"                                        ║
+  ║           data-nome="Nome software"                             ║
+  ║           data-url="https://drive.google.com/file/d/.../view"   ║
+  ║           data-versione="v1.0">   ← versione opzionale          ║
+  ║      </div>                                                      ║
+  ╚══════════════════════════════════════════════════════════════════╝
+  -->
+  <template id="swData">
+
+    <!-- ══ SEZIONE 1: SOFTWARE FORMAZIONI ══ -->
+    <!-- Sostituisci/aggiungi i tuoi software qui sotto -->
+    <div class="sw-section" data-title="SOFTWARE ATTUALI">
+
+    <div class="sw-app"
+           data-nome="eCardio"
+           data-url="https://drive.google.com/file/d/1OgmV7J7K2q7e3X2ALrUUCVLAB7YHJEAB/view?usp=sharing"
+           data-versione="v Clienti"></div>
+
+    </div>
+
+    <div class="sw-app"
+           data-nome="HingMed ABP Italy"
+           data-url="https://drive.google.com/file/d/15eDyG_XCunFODQ-Yh1INqshpqjrFTe8H/view?usp=sharing"
+           data-versione="v Clienti"></div>
+
+    </div>
+
+        <div class="sw-app"
+           data-nome="Polypro "
+           data-url="https://drive.google.com/file/d/1sW2h-qAMuSze4GJWI0NLXlLDp_iKTER_/view?usp=sharing"
+           data-versione="v Clienti"></div>
+
+    </div>
+    
+    <div class="sw-section" data-title="eCardio VARI">
+
+      <div class="sw-app"
+           data-nome="eCardio 2.0"
+           data-url="https://drive.google.com/file/d/1j21ArVHqMd4jttaL6z0mQkY1VJi7N0EG/view?usp=sharing"
+           data-versione="v2.0"></div>
+
+    </div>
+
+      <div class="sw-app"
+           data-nome="eCardio 3.0"
+           data-url="https://drive.google.com/file/d/1pUF4Xw6VKd-w2L00OanBVBKeDbCy0c1x/view?usp=sharing"
+           data-versione="v3.0"></div>
+
+    </div>      
+
+      <div class="sw-app"
+           data-nome="eCardio 7.0"
+           data-url="https://drive.google.com/file/d/1Jr4IZU8wOIb8q7r0lTWByc9-ZFng4D5l/view?usp=sharing"
+           data-versione="v7.0"></div>
+
+    </div>
+
+      <div class="sw-app"
+           data-nome="eCardio AI"
+           data-url="https://drive.google.com/file/d/1S3lQS3skrJdDVLf9_uTyo8kSL53BS5n5/view?usp=sharing"
+           data-versione="chiavetta nera"></div>
+
+    </div>
+
+          <div class="sw-app"
+           data-nome="eCardio AI"
+           data-url="https://drive.google.com/file/d/1YSdzJwhdkT4rCIzluOrm_4q9rvJovFdc/view?usp=sharing"
+           data-versione="chiavetta blu"></div>
+
+    </div>
+    
+      <div class="sw-app"
+           data-nome="eCardio AI 2"
+           data-url="https://drive.google.com/file/d/1hQMxT8if4r3iMrG8_-YV4nNQL3j1kVHC/view?usp=sharing"
+           data-versione="chiavetta nera"></div>
+
+    </div>
+
+          <div class="sw-app"
+           data-nome="eCardio blu"
+           data-url="https://drive.google.com/file/d/13_zwl10cTPU6EsCs-WnL92maPcwmRpmY/view?usp=sharing"
+           data-versione="chiavetta blu"></div>
+
+    </div>
+    
+           <div class="sw-app"
+           data-nome="eCardio con indicazioni"
+           data-url="https://drive.google.com/file/d/1rxicQzrkF-g2wk1Z3DqwSWtyhipgiZxn/view?usp=sharing"
+           data-versione="chiavetta nera"></div>
+
+    </div>
+
+           <div class="sw-app"
+           data-nome="eCardio EPM"
+           data-url="https://drive.google.com/file/d/1HZrbY5KbSkKHg7mDbLu9oaf4WBDOKYeN/view?usp=sharing"
+           data-versione="chiavetta EPM"></div>
+
+    </div>
+    
+           <div class="sw-app"
+           data-nome="eCardio EPM no logo"
+           data-url="https://drive.google.com/file/d/1GbNAG4PTMKlTmwoU4KSjw1cTKuQMCVjE/view?usp=sharing"
+           data-versione="chiavetta EPM"></div>
+
+    </div>
+
+           <div class="sw-app"
+           data-nome="eCardio HQ"
+           data-url="https://drive.google.com/file/d/1fVC3ug6uKzrdogyOO8HYEXf7QQVVT7EP/view?usp=sharing"
+           data-versione="chiavetta nera"></div>
+
+    </div>
+
+           <div class="sw-app"
+           data-nome="eCardio no logo"
+           data-url="https://drive.google.com/file/d/1HDZyQqQaOBMTumVaKeF22qoMwPFVqzx0/view?usp=sharing"
+           data-versione="chiavetta nera"></div>
+
+    </div>
+
+           <div class="sw-app"
+           data-nome="ECG Holter dongle driver"
+           data-url="https://drive.google.com/file/d/18AQNnEYDV_RonoxQ8-ekPJa95H8PKQip/view?usp=sharing"
+           data-versione="chiavetta nera"></div>
+
+    </div>
+
+           <div class="sw-app"
+           data-nome="NUOVO eCardio TEST"
+           data-url="https://drive.google.com/file/d/1Xw5Sp1mGlCy9wlV6CQ_SXtiqbEMXrDIq/view?usp=sharing"
+           data-versione="chiavetta nera"></div>
+
+    </div>
+
+    <div class="sw-section" data-title="POLISONNOGRAFIA">
+      
+           <div class="sw-app"
+           data-nome="Polypro sH2"
+           data-url="https://drive.google.com/file/d/1lEZ5B6_Uof6Bi2bEu93RWWQEjC-BPVuv/view?usp=sharing"
+           data-versione="v nuova"></div>
+
+    </div>
+
+           <div class="sw-app"
+           data-nome="O2 Insight Pro"
+           data-url="https://drive.google.com/file/d/1UtjtdkIrq7m9Q3wVQJleG2RfU3-X09t6/view?usp=sharing"
+           data-versione="v clienti"></div>
+
+    </div>
+
+    <div class="sw-section" data-title="SPIROMETRIA">
+      
+    <div class="sw-app"
+           data-nome="Spirometria MIR"
+           data-url="https://drive.google.com/drive/folders/1QHxlK0PMUFdf6KRjR_frP8Jejj6vqNxv?usp=sharing"
+           data-versione="v clienti"></div>
+
+    </div>
+  </template>
+
   <script>
     /* ── APERTURA / CHIUSURA MODAL ── */
     function openDocsModal() {
@@ -858,6 +1115,60 @@
 
       list.innerHTML = html;
     }
+
+    /* ── MODAL SOFTWARE ── */
+    function openSwModal() {
+      document.getElementById('swModal').classList.add('active');
+      renderSw();
+    }
+
+    function closeSwModal() {
+      document.getElementById('swModal').classList.remove('active');
+    }
+
+    function renderSw() {
+      const list = document.getElementById('swList');
+      const tpl  = document.getElementById('swData').content;
+      const sections = tpl.querySelectorAll('.sw-section');
+
+      if (sections.length === 0) {
+        list.innerHTML = '<div class="doc-empty"><div class="doc-empty-icon">💾</div>Nessun software disponibile.</div>';
+        return;
+      }
+
+      let html = '';
+      sections.forEach(sec => {
+        const title = sec.dataset.title || '';
+        const apps  = sec.querySelectorAll('.sw-app');
+
+        html += `
+          <div style="display:flex;align-items:center;gap:10px;margin:16px 0 8px;">
+            <hr style="flex:1;border:none;border-top:1.5px solid #e0e6ef;">
+            <span style="font-size:0.78rem;font-weight:700;color:#1a8f87;white-space:nowrap;letter-spacing:.3px;text-transform:uppercase;">${escHtml(title)}</span>
+            <hr style="flex:1;border:none;border-top:1.5px solid #e0e6ef;">
+          </div>`;
+
+        apps.forEach(app => {
+          const nome     = app.dataset.nome     || '';
+          const url      = app.dataset.url      || '#';
+          const versione = app.dataset.versione || '';
+          html += `
+            <div class="sw-item">
+              <span class="sw-icon">💾</span>
+              <div class="sw-info">
+                <span class="sw-title">${escHtml(nome)}</span>
+                ${versione ? `<span class="sw-version">${escHtml(versione)}</span>` : ''}
+              </div>
+              <div class="sw-actions">
+                <a class="sw-btn download" href="${getDriveDownloadUrl(url)}" target="_blank">⬇ Scarica</a>
+              </div>
+            </div>`;
+        });
+      });
+
+      list.innerHTML = html;
+    }
+
   </script>
 </body>
 </html>
